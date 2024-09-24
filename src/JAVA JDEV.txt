@@ -1,0 +1,119 @@
+EQUALS E HASHCODE(Diferenciar e comparar objetos).
+ 
+
+
+LISTAS
+1 - Listas são usadas quando necessitamos carregar quantidades de dados do mesmo tipo.
+2 - Representam o mundo real onde por exemplo uma lista de produtos aumentam e diminui
+
+Pacotes de listas do java:
+- import java.util.Arraylist;
+- import java.util.list;
+
+Lista genérica - ex: List lista = new ArrayList();
+
+Para casos de listas usando a referencia a outra classe, é necessario declarar da seguinte foma:
+private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+
+Como percorrer uma lista?
+
+Usando foreach
+
+
+A função equalsIgnoreCase() em Java é usada para comparar duas strings, ignorando se as letras estão em maiúsculas ou minúsculas. Ela retorna true se as duas strings forem iguais, desconsiderando as diferenças de capitalização, e false caso contrário.
+
+CLASSES E ATRIBUTOS ESTATICOS
+Uma classe estatica não precisa ser instanciada para usar seus atributos/metodos.
+ 
+HashMap - em Java é uma estrutura de dados que armazena pares de chave-valor. Ele funciona da seguinte maneira:
+
+Chave-Valor: Cada entrada no HashMap consiste em uma chave única associada a um valor. As chaves não podem se repetir, mas os valores podem.
+
+Hashing: Ele usa uma função de hashing para calcular um índice baseado na chave. Esse índice determina onde o par chave-valor será armazenado internamente.
+
+Desempenho: A busca, inserção e remoção são rápidas (tempo constante O(1) na maioria dos casos), porque o HashMap acessa diretamente o índice da chave, sem precisar percorrer todos os elementos.
+
+Colisões: Se duas chaves diferentes gerarem o mesmo índice (colisão), o HashMap usa listas encadeadas ou uma árvore binária para armazenar múltiplos valores no mesmo índice.
+
+TRATAMENTO DE EXCEÇÕES
+NullPointerException - É um objeto nulo.
+ClassCasException - Conversão
+FileNotFoundException - Arquivo que não existe
+ArrayIndexOutOfBoundsException - Tentar acessar uma posição do array que não existe.
+
+Fatores internos e externos
+
+motivos internos
+- Tentar manipular um objeto que está com o valor nulo.
+- Dividir um número por zero
+- Tentar manipular um tipo de dados como se fosse outro
+- tentar utilizar um método ou classe não egistentes.
+
+motivos externos
+- Tentar abrir um arquivo que não existe
+- Tentar fazer consulta a um banco de dados remoto que não está diponível
+- Temtar escrever algo em um arquivo sobre o qual nao se tem permissão
+- Tentar conectar em servidor inexistente ou fora de serviço
+
+
+Erros de Compilação e Runtime
+
+compilação - Erro antes da fase de execução. Impede de iniciar o sistema
+
+runtime - Erro durante execução. Impede uma rotina do sistema.
+
+Framework ORM - Mapeia as classes por meio de anotações, permitindo realizar operações no banco. As tabelas do banco de dados são representadas através de classes e os registros de cada tabela são representados com instâncias das classes correspondentes
+
+Hibernate - É um framework para o mapeamento objeto-relacional escrito na lingaguem Java, mas também é disponível em .Net com o nome NHibernate.
+
+JPA - é uma API padrão da linguagem Java que descreve uma interface comum para frameworks de persistência de dados.
+
+JDK - Conjunto de ultilitários que permitem criar sistemas de software para a plataforma Java. É composto por compilador e bibliotecas.
+JRE - Ambiente de tempo de Execução Java, e é utilizado para executar as aplicações da plataforma.
+JVM - A JVM é responsável pelo gerenciamento dos aplicativos, à medida que são executados.
+
+Servidor de aplicação, servlets ou web container - Recipiente web, ou web container, também conhecido como Servlet container, é o componente de um servidor web que interage com servlets Java e é responsável por rodar nosso projeto.
+
+Instalação sql server: intervalos de portas para os serviços PolyBase - 16450-16460
+
+Enviar email com java - 
+
+
+
+
+
+
+JDBC
+--create database java_jdbc;
+--drop database java_jdbc;
+
+use java_jdbc;
+
+--drop table user_java_jdbc;
+
+create table user_java_jdbc(
+	cd_user bigint identity(1,1) not null UNIQUE,
+	nm_user varchar(255) not null,
+	email varchar(255) not null,
+	constraint user_pk primary key (cd_user)
+);
+
+
+insert into user_java_jdbc values('Victor Oliveira', 'alexanvictor@gmail.com');
+   
+select * from user_java_jdbc;
+
+create table telefone_java_jdbc(
+	cd_telefone bigint not null identity unique,
+	numero varchar(255) not null,
+	cd_user bigint not null
+);
+
+alter table telefone_java_jdbc
+add constraint fk_user_tel foreign key (cd_user)
+references user_java_jdbc(cd_user);
+
+select * from telefone_java_jdbc;
+
+
+
