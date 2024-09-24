@@ -46,7 +46,6 @@ public class TesteBancoJdbc {
     public void  initBuscar(){
 
         UserJavaDao userJavaDao = new UserJavaDao(); /* Instanciando um objeto tipo UserJavaDao */
-        Userjavajdbc userjavajdbc = new Userjavajdbc(); /* Instanciando um objeto tipo userjavajdbc */
 
         for( Userjavajdbc u : userJavaDao.listaFiltro("a")){
             System.out.println(u.getEmail());
