@@ -70,6 +70,34 @@ public class UserJdbcDao {
         return lista;
     }
 
+    public List<BeanUserFone> listaUserFone(long cd_user){
+
+        List<BeanUserFone> beanUserFones = new ArrayList<>();
+        try {
+            String sql = "SELECT ujj.nm_user nome\n" +
+                    "\t , tjj.numero\n" +
+                    "\t , ujj.email \n" +
+                    "FROM user_java_jdbc ujj\n" +
+                    "INNER JOIN telefone_java_jdbc tjj\n" +
+                    "ON ujj.cd_user = tjj.cd_user\n" +
+                    "WHERE ujj.cd_user = ?";
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, cd_user);
+            ResultSet result = stmt.executeQuery();
+            while(result.next()) {
+                BeanUserFone beanUserFone = new BeanUserFone();
+                beanUserFone.setNome(result.getString("nome"));
+                beanUserFone.setEmail(result.getString("email"));
+                beanUserFone.setNumero(result.getString("numero"));
+                beanUserFones.add(beanUserFone);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return beanUserFones;
+    }
+
     public List<Userjdbc> buscar(String parametro){
         List<Userjdbc> lista = new ArrayList<>();
         try{
@@ -121,31 +149,24 @@ return lista;
         }
     }
 
-    public List<BeanUserFone> listaUserFone(long cd_user){
+    public void deletaUserFone(long cd_user){
 
-            List<BeanUserFone> beanUserFones = new ArrayList<>();
-        try {
-            String sql = "SELECT ujj.nm_user nome\n" +
-                    "\t , tjj.numero\n" +
-                    "\t , ujj.email \n" +
-                    "FROM user_java_jdbc ujj\n" +
-                    "INNER JOIN telefone_java_jdbc tjj\n" +
-                    "ON ujj.cd_user = tjj.cd_user\n" +
-                    "WHERE ujj.cd_user = ?";
+        try{
 
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            String sqlTel = "delete from telefone_java_jdbc where cd_user = ?";
+            String sqlUser = "delete from user_java_jdbc where cd_user = ?";
+            PreparedStatement stmt = connection.prepareStatement(sqlTel);
             stmt.setLong(1, cd_user);
-            ResultSet result = stmt.executeQuery();
-            while(result.next()) {
-                BeanUserFone beanUserFone = new BeanUserFone();
-                beanUserFone.setNome(result.getString("nome"));
-                beanUserFone.setEmail(result.getString("email"));
-                beanUserFone.setNumero(result.getString("numero"));
-                beanUserFones.add(beanUserFone);
-            }
+            stmt.execute();
+            connection.commit();
+
+            stmt = connection.prepareStatement(sqlUser);
+            stmt.setLong(1, cd_user);
+            stmt.execute();
+            System.out.println("Registro deletado com sucesso");
         }catch (Exception e) {
+
             e.printStackTrace();
         }
-        return beanUserFones;
     }
 }

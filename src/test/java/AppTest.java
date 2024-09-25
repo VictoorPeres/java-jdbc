@@ -81,4 +81,11 @@ public class AppTest {
             System.out.println("Email: " + beanUserFone.getEmail());
         }
     }
+
+    @Test
+    public void initDeleteUserFone() {
+
+        UserJdbcDao userJdbcDao = new UserJdbcDao();
+        userJdbcDao.deletaUserFone(1);
+    }
 }
