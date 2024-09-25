@@ -1,11 +1,14 @@
 package br.com.avancard.dao;
 
 import br.com.avancard.conexaojdbc.SingleConnection;
+import br.com.avancard.model.BeanUserFone;
+import br.com.avancard.model.Telefonejdbc;
 import br.com.avancard.model.Userjdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,24 @@ public class UserJdbcDao {
             connection.commit();
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void salvarTelefone(Telefonejdbc telefone) {
+        try{
+            String sql = "insert into telefone_java_jdbc values(?,?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, telefone.getNumero());
+            stmt.setLong(2, telefone.getCd_usuario());
+            stmt.execute();
+            connection.commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -98,5 +119,33 @@ return lista;
 
             e.printStackTrace();
         }
+    }
+
+    public List<BeanUserFone> listaUserFone(long cd_user){
+
+            List<BeanUserFone> beanUserFones = new ArrayList<>();
+        try {
+            String sql = "SELECT ujj.nm_user nome\n" +
+                    "\t , tjj.numero\n" +
+                    "\t , ujj.email \n" +
+                    "FROM user_java_jdbc ujj\n" +
+                    "INNER JOIN telefone_java_jdbc tjj\n" +
+                    "ON ujj.cd_user = tjj.cd_user\n" +
+                    "WHERE ujj.cd_user = ?";
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, cd_user);
+            ResultSet result = stmt.executeQuery();
+            while(result.next()) {
+                BeanUserFone beanUserFone = new BeanUserFone();
+                beanUserFone.setNome(result.getString("nome"));
+                beanUserFone.setEmail(result.getString("email"));
+                beanUserFone.setNumero(result.getString("numero"));
+                beanUserFones.add(beanUserFone);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return beanUserFones;
     }
 }

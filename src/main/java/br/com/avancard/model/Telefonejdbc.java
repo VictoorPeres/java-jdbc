@@ -6,7 +6,7 @@ import java.util.List;
 public class Telefonejdbc {
     private long cd_telefone;
     private String numero;
-    private Userjdbc usuario;
+    private long cd_usuario;
 
     public long getCd_telefone() {
         return cd_telefone;
@@ -24,11 +24,11 @@ public class Telefonejdbc {
         this.numero = numero;
     }
 
-    public Userjdbc getUsuario() {
-        return usuario;
+    public long getCd_usuario() {
+        return cd_usuario;
     }
 
-    public void setUsuario(Userjdbc usuario) {
-        this.usuario = usuario;
+    public void setCd_usuario(long cd_usuario) {
+        this.cd_usuario = cd_usuario;
     }
 }
